@@ -19,43 +19,54 @@ printOut("25 m + 34 cm = " + sumPart2.toFixed(2) + " inches");
 printOut(newLine);
 
 printOut("--- Part 3 ----------------------------------------------------------------------------------------------");
-const days = 3;
-const hours = 12;
-const minutes = 14;
-const seconds = 45;
+const part3Days = 3;
+const part3Hours = 12;
+const part3Minutes = 14;
+const part3Seconds = 45;
 
-const sumPart3 = days * 24 * 60 + hours * 60 + minutes + seconds / 60;
+const part3Answer =
+  part3Days * 24 * 60 +
+  part3Hours * 60 +
+  part3Minutes +
+  part3Seconds / 60;
 
-printOut("3 days, 12 hours, 14 minutes and 45 seconds = " + sumPart3 + " minutes");
+printOut(
+  "3 days, 12 hours, 14 minutes and 45 seconds = " +
+    part3Answer +
+    " minutes"
+);
 
 printOut(newLine);
 
 printOut("--- Part 4 ----------------------------------------------------------------------------------------------");
 const totalMinutes = 6322.52;
 
-const days = Math.floor(totalMinutes / 1440);
+const part4Days = Math.floor(totalMinutes / 1440);
 
 let remainder = totalMinutes % 1440;
 
-const hours = Math.floor(remainder / 60);
+const part4Hours = Math.floor(remainder / 60);
 remainder = remainder % 60;
 
-const minutes = Math.floor(remainder);
-const seconds = Math.round((remainder - minutes) * 60);
+const part4Minutes = Math.floor(remainder);
+const part4Seconds = Math.round((remainder - part4Minutes) * 60);
 
-printOut(days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds");
+printOut(
+  part4Days +
+    " days, " +
+    part4Hours +
+    " hours, " +
+    part4Minutes +
+    " minutes, " +
+    part4Seconds +
+    " seconds"
+);
 
 printOut(newLine);
 
 printOut("--- Part 5 ----------------------------------------------------------------------------------------------");
-const nok = 76;
-const usd = 8.6;
-
 const usdToNok = Math.round(54 * (nok / usd));
 const nokToUsd = Math.round(nok / (nok / usd));
-
-printOut("54 USD = " + usdToNok + " NOK");
-printOut(nok + " NOK = " + nokToUsd + " USD");
 
 printOut(newLine);
 
@@ -103,17 +114,23 @@ printOut(newLine);
 printOut("--- Part 9 ----------------------------------------------------------------------------------------------");
 const randomNumber = Math.floor(Math.random() * 360) + 1;
 
-printOut("Random number between 1 and 360: " + randomNumber);
+printOut("Random number between 1 and 360: " + randomNumber); 
 
 printOut(newLine);
 
 /* Task 10*/
 printOut("--- Part 10 ---------------------------------------------------------------------------------------------");
-const totalDays = 131;
+const part10TotalDays = 131;
 
-const weeks = Math.floor(totalDays / 7);
-const days = totalDays % 7;
+const part10Weeks = Math.floor(part10TotalDays / 7);
+const part10Days = part10TotalDays % 7;
 
-printOut(totalDays + " days = " + weeks + " weeks and " + days + " days");
-
+printOut(
+  part10TotalDays +
+    " days = " +
+    part10Weeks +
+    " weeks and " +
+    part10Days +
+    " days"
+);
 printOut(newLine);
