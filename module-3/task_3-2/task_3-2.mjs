@@ -4,175 +4,162 @@ import { printOut, newLine } from "../../common/script/utils.mjs";
 printOut("--- Part 1 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 let upLine = "";
-for (let i = 1; i <10; i++)
-{upLine += i + " ";}
-printOut(upLine)
-
 let downLine = "";
-for (let i =10; i >=1; i--) 
-{downLine += i + " ";}
-printOut(downLine)
-
+for (let i = 1, j = 10; i <= 10; i++, j--) {
+  upLine += i + " ";
+  downLine += j + " ";
+}
+printOut(upLine);
+printOut(downLine);
 printOut(newLine);
 
 printOut("--- Part 2 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 const target = 45;
 let guess = 0;
-let attempts = 0;
 
 while (guess !== target) {
-    guess = Math.floor(Math.random() * 60) + 1;
-    attempts++;
+  guess = Math.floor(Math.random() * 60) + 1;
 }
 
-printOut(`Part 2: Guessed ${guess} in ${attempts} attempts.`);
+printOut(`The computer guessed the number: ${guess}`);
+printOut(newLine);
 
 printOut("--- Part 3 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-// Part 3: Guessing Game - Level Up
-const target2 = 420697;
-let guess2 = 0;
-let attempts2 = 0;
+const targetLarge = 420697;
+let guessLarge = 0;
+let guessCount = 0;
 
 const startTime = Date.now();
 
-while (guess2 !== target2) {
-    guess2 = Math.floor(Math.random() * 1000000) + 1;
-    attempts2++;
+while (guessLarge !== targetLarge) {
+  guessLarge = Math.floor(Math.random() * 1000000) + 1;
+  guessCount++;
 }
 
 const endTime = Date.now();
-const elapsed = endTime - startTime;
+const elapsedMilliseconds = endTime - startTime;
 
-printOut(`Guessed ${guess2} in ${attempts2} attempts.`);
-printOut(`Time taken: ${elapsed} milliseconds.`);
+printOut(`The computer guessed the number: ${guessLarge}`);
+printOut(`Number of guesses: ${guessCount}`);
+printOut(`Time taken: ${elapsedMilliseconds} milliseconds`);
 printOut(newLine);
 
 printOut("--- Part 4 ----------------------------------------------------------------------------------------------");
-
 /* Put your code below here! */
-const primes = [];
+let primeLine = "";
 
-for (let n = 2; n < 400; n++) {
-    let isPrime = true;
-    let divisor = 2;
+for (let number = 2; number < 200; number++) {
+  let isPrime = true;
+  let divisor = 2;
 
-    while (divisor <= Math.sqrt(n)) {
-        if (n % divisor === 0) {
-            isPrime = false;
-            break;
-        }
-        divisor++;}
-        if (isPrime) {primes.push(n);}}
+  while (divisor < number) {
+    if (number % divisor === 0) {
+      isPrime = false;
+    }
+    divisor++;
+  }
 
-printOut(`Primes less than 400: ${primes.join(", ")}`);
-printOut(`Total primes found: ${primes.length}`);
+  if (isPrime) {
+    primeLine += number + " ";
+  }
+}
+
+printOut(primeLine);
+printOut(newLine);
 
 printOut("--- Part 5 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 for (let row = 1; row <= 7; row++) {
-    let line = "";
-    for (let col = 1; col <= 9; col++) {
-        line += `K${col}R${row} `;
-    }
-    printOut(line.trim());
+  let line = "";
+  for (let col = 1; col <= 9; col++) {
+    line += `K${col}R${row} `;
+  }
+  printOut(line);
 }
 printOut(newLine);
 
 printOut("--- Part 6 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
+const maxScore = 236;
 
-const grades = [];
-for (let i = 0; i < 5; i++) {
-    grades.push(Math.floor(Math.random() * 236) + 1);
+for (let student = 1; student <= 5; student++) {
+  const points = Math.floor(Math.random() * maxScore) + 1;
+  const percentage = (points / maxScore) * 100;
+  let letterGrade;
 
-}
+  if (percentage >= 89) {
+    letterGrade = "A";
+  } else if (percentage >= 77) {
+    letterGrade = "B";
+  } else if (percentage >= 65) {
+    letterGrade = "C";
+  } else if (percentage >= 53) {
+    letterGrade = "D";
+  } else if (percentage >= 41) {
+    letterGrade = "E";
+  } else {
+    letterGrade = "F";
+  }
 
-function getLetterGrade(points) {
-    const percentage = (points / 236) * 100;
-    if (percentage >= 89) return "A";
-    if (percentage >= 77) return "B";
-    if (percentage >= 65) return "C";
-    if (percentage >= 53) return "D";
-    if (percentage >= 41) return "E";
-    return "F";
-}
-
-for (let i = 0; i < grades.length; i++) { 
-    const points = grades[i];
-    const percentage = (points / 236) * 100;
-    const letter = getLetterGrade(points);
-     printOut(`Student ${i + 1}: ${points} points (${percentage.toFixed(1)}%) → Grade ${letter}`);
+  printOut(`Student ${student}: ${points} points (${percentage.toFixed(1)}%) → Grade ${letterGrade}`);
 }
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-function rollSixDice() {
-    const dice = [];
-    for (let i = 0; i < 6; i++) {
-        dice.push(Math.floor(Math.random() * 6) + 1);
+function matchString(aString, aNumber) {
+  let count = 0;
+  for (let i = 0; i < aString.length; i++) {
+    if (aString.charAt(i) === String(aNumber)) {
+      count++;
     }
-    return dice;
+  }
+  return count;
 }
 
-function countValues(dice) {
-    const counts = {};
-    for (const d of dice) {
-        counts[d] = (counts[d] || 0) + 1;
-    }
-    return counts;
-}
+let throwCount = 0;
+let foundStraight = false;
+let foundThreePairs = false;
+let foundTower = false;
+let foundYahtzee = false;
 
-function isFullStraight(dice) {
-    const sorted = [...dice].sort((a, b) => a - b);
-    return sorted.join("") === "123456";
-}
-
-function isThreePairs(dice) {
-    const counts = Object.values(countValues(dice));
-    return counts.length === 3 && counts.every(c => c === 2);
-}
-
-function isTower(dice) {
-    const counts = Object.values(countValues(dice)).sort((a, b) => a - b);
-    return counts.length === 2 && counts[0] === 2 && counts[1] === 4;
-}
-
-function isYahtzee(dice) {
-    return new Set(dice).size === 1;
-}
-
-let throws;
-let dice;
-
-throws = 0;
 do {
-    dice = rollSixDice();
-    throws++;
-} while (!isFullStraight(dice));
-printOut(`Full straight (1 2 3 4 5 6): ${throws} throws`);
+  throwCount++;
 
-throws = 0;
-do {
-    dice = rollSixDice();
-    throws++;
-} while (!isThreePairs(dice));
-printOut(`3 pairs: ${throws} throws`);
+  const d1 = Math.floor(Math.random() * 6) + 1;
+  const d2 = Math.floor(Math.random() * 6) + 1;
+  const d3 = Math.floor(Math.random() * 6) + 1;
+  const d4 = Math.floor(Math.random() * 6) + 1;
+  const d5 = Math.floor(Math.random() * 6) + 1;
+  const d6 = Math.floor(Math.random() * 6) + 1;
+  const diceString = "" + d1 + d2 + d3 + d4 + d5 + d6;
 
-throws = 0;
-do {
-    dice = rollSixDice();
-    throws++;
-} while (!isTower(dice));
-printOut(`Tower (2 of a kind + 4 of a kind): ${throws} throws`);
+  const c1 = matchString(diceString, 1);
+  const c2 = matchString(diceString, 2);
+  const c3 = matchString(diceString, 3);
+  const c4 = matchString(diceString, 4);
+  const c5 = matchString(diceString, 5);
+  const c6 = matchString(diceString, 6);
+  const countString = "" + c1 + c2 + c3 + c4 + c5 + c6;
 
-throws = 0;
-do {
-    dice = rollSixDice();
-    throws++;
-} while (!isYahtzee(dice));
-printOut(`Yahtzee (all same): ${throws} throws`);
+  if (!foundStraight && matchString(countString, 1) === 6) {
+    foundStraight = true;
+    printOut(`Full straight (1 2 3 4 5 6): ${throwCount} throws`);
+  }
+  if (!foundThreePairs && matchString(countString, 2) === 3) {
+    foundThreePairs = true;
+    printOut(`3 pairs: ${throwCount} throws`);
+  }
+  if (!foundTower && matchString(countString, 4) === 1 && matchString(countString, 2) === 1) {
+    foundTower = true;
+    printOut(`Tower (2 of a kind + 4 of a kind): ${throwCount} throws`);
+  }
+  if (!foundYahtzee && matchString(countString, 6) === 1) {
+    foundYahtzee = true;
+    printOut(`Yahtzee (all the same): ${throwCount} throws`);
+  }
+} while (!foundStraight || !foundThreePairs || !foundTower || !foundYahtzee);
 
 printOut(newLine);

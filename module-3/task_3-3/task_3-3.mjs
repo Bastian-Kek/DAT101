@@ -30,15 +30,16 @@ function getTodaysDate() {
     return today;
 }
 
-function daysUntilGTA6() {
-    const release = new Date("2026-11-19");
-    const today = new Date();
+function daysUntilRelease(fromDate) {
+    // Release date: November 19, 2026 (month index 10 = November)
+    const release = new Date(2026, 10, 19);
+    const startOfToday = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
     const msPerDay = 1000 * 60 * 60 * 24;
-    return Math.ceil((release - today) / msPerDay);
+    return Math.round((release - startOfToday) / msPerDay);
 }
 
 const todayDate = getTodaysDate();
-const daysLeft = daysUntilGTA6();
+const daysLeft = daysUntilRelease(todayDate);
 printOut(`🌴 Only ${daysLeft} days until GTA 6 releases on November 19, 2026! Get ready! 🌴`);
 printOut(newLine);
 
@@ -75,18 +76,18 @@ printOut(newLine);
 printOut("--- Part 5 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 function convertTemperature(value, type) {
-    const t = type.toUpperCase();
+    const unit = type.toUpperCase();
     let celsius, fahrenheit, kelvin;
 
-    if (t === "C") {
+    if (unit === "C") {
         celsius = value;
         fahrenheit = (value * 9 / 5) + 32;
         kelvin = value + 273.15;
-    } else if (t === "F") {
+    } else if (unit === "F") {
         fahrenheit = value;
         celsius = (value - 32) * 5 / 9;
         kelvin = celsius + 273.15;
-    } else if (t === "K") {
+    } else if (unit === "K") {
         kelvin = value;
         celsius = value - 273.15;
         fahrenheit = (celsius * 9 / 5) + 32;
@@ -95,7 +96,7 @@ function convertTemperature(value, type) {
         return;
     }
 
-    printOut(`Input: ${value} ${t}`);
+    printOut(`Input: ${value} ${unit}`);
     printOut(`Celsius: ${Math.round(celsius)}`);
     printOut(`Fahrenheit: ${Math.round(fahrenheit)}`);
     printOut(`Kelvin: ${Math.round(kelvin)}`);
@@ -119,30 +120,39 @@ function netPrice(gross, vatGroup) {
     } else if (group === "hotel" || group === "transport" || group === "cinema") {
         vatRate = 10;
     } else {
-        printOut("Unknown VAT group!");
         return NaN;
     }
 
     return (100 * gross) / (vatRate + 100);
 }
 
-printOut(`Net price (normal, 1250 kr gross): ${netPrice(1250, "normal").toFixed(2)} kr`);
-printOut(`Net price (food, 115 kr gross): ${netPrice(115, "Food").toFixed(2)} kr`);
-printOut(`Net price (cinema, 220 kr gross): ${netPrice(220, "CINEMA").toFixed(2)} kr`);
-printOut(`Net price (goblins, 500 kr gross): ${netPrice(500, "goblins")}`);
+function printNetPrice(gross, vatGroup) {
+    const net = netPrice(gross, vatGroup);
+    if (isNaN(net)) {
+        printOut("Unknown VAT group!");
+    } else {
+        printOut(`Net price (${vatGroup}, ${gross} kr gross): ${net.toFixed(2)} kr`);
+    }
+}
+
+printNetPrice(1250, "normal");
+printNetPrice(115, "Food");
+printNetPrice(220, "CINEMA");
+printNetPrice(500, "goblins");
 printOut(newLine);
 
 printOut("--- Part 7 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 function calculateSDT(speed, distance, time) {
-    const values = { speed, distance, time };
-    const missing = Object.values(values).filter(v => v === undefined).length;
+    let missingCount = 0;
+    if (speed === undefined) missingCount++;
+    if (distance === undefined) missingCount++;
+    if (time === undefined) missingCount++;
 
-    if (missing > 1) return NaN;
+    if (missingCount !== 1) return NaN;
     if (speed === undefined) return distance / time;
     if (distance === undefined) return speed * time;
-    if (time === undefined) return distance / speed;
-    return NaN;
+    return distance / speed;
 }
 
 printOut(`Speed (d=100, t=5): ${calculateSDT(undefined, 100, 5)}`);
@@ -170,7 +180,6 @@ printOut(newLine);
 
 printOut("--- Part 9 ----------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
-
 function checkMathPattern(lines) {
     let current = 1;
 
@@ -192,10 +201,8 @@ function checkMathPattern(lines) {
             current++;
         }
 
-        if (n <= 7) {
-            const formattedLeft = leftSide.trim().padEnd(30);
-            const formattedRight = rightSide.trim().padStart(30);
-            printOut(formattedLeft + " = " + formattedRight);
+        if (n <= 5) {
+            printOut(leftSide.trim() + " = " + rightSide.trim());
         }
 
         if (leftSum !== rightSum) {
@@ -204,13 +211,12 @@ function checkMathPattern(lines) {
         }
     }
 
-    printOut("Mathematics is fun!");
+    printOut("Maths fun!");
 }
 
 checkMathPattern(200);
 printOut(newLine);
 
-/* Task 10*/
 printOut("--- Part 10 ---------------------------------------------------------------------------------------------");
 /* Put your code below here!*/
 function factorial(n) {
